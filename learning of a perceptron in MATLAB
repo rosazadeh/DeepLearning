@@ -1,0 +1,46 @@
+% X - features
+% Y - labels
+% theta_init - initial values of weights
+% n - number of iterations
+% LR - learning rate
+%
+% theta - return the learned weights
+%
+
+
+function theta = perceptron_neuron(X,Y,theta_init,n,learningRate)
+    %setting local variables to the randomly initialized theta_init
+    %values
+    theta0 = theta_init(1,3);
+    theta1 = theta_init(1,1);
+    theta2 = theta_init(1,2);
+    for i = 1:n
+        for j = 1:(size(X))
+            %setting local variables to the values in X and Y
+            x1 = X(j,1);
+            x2 = X(j,2);
+            x0 = X(j,3);
+            y = Y(j);
+            
+            %getting the predicted activation value
+            a = theta0*x0 + theta1*x1+theta2*x2;
+            
+            %getting the predicted label: if a<0, t=-1, and if a>0, t=1
+            t = sign(a);
+            
+            %updating theta values as needed in sequential update
+            if (y ~= t)
+                theta0 = theta0 + (LR*(y-t)*x0);
+                theta1 = theta1 + (LR*(y-t)*x1);
+                theta2 = theta2 + (LR*(y-t)*x2);
+            end
+        end
+    end
+    
+    %setting found values back to theta_init and returning theta array of
+    %the updated learned weights
+    theta_init(1,1) = theta1;
+    theta_init(1,2) = theta2;
+    theta_init(1,3) = theta0;
+    theta = theta_init;
+end
